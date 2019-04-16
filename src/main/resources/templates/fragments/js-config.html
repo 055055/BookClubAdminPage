@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="jsConfigFragment">
+    <!-- 공통으로 쓰이는 css파일을넣는다.-->
+    <!-- Bootstrap core JavaScript-->
+    <script th:src="@{/bootstrap/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script th:src="@{/bootstrap/vendor/jquery-easing/jquery.easing.min.js}"></script>
+    <!--
+     jQuery UI 라이브러리 js파일
+  -->
+    <script th:src="@{//code.jquery.com/ui/1.12.1/jquery-ui.min.js}"></script>
+
+    <!-- 컨텐츠페이지의 스크립트 영역이 들어감 -->
+    <th:block layout:fragment="script"></th:block>
+</div>
+
+</html>

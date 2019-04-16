@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/default">
+<head>
+  <title>SB Admin - Tables</title>
+    <!-- index.html 고유 CSS 추가 -->
+    <th:block layout:fragment="css">
+        <!-- select css-->
+        <link th:href="@{//cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css}" rel="stylesheet">
+        <!-- button css-->
+        <link th:href="@{//cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css}" rel="stylesheet">
+    </th:block>
+</head>
+    <div id="content-wrapper" layout:fragment="content">
+      <div class="container-fluid">
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Tables</li>
+        </ol>
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Data Table Example</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                      <th>이름</th>
+                      <th>닉네임</th>
+                      <th>이달의 참여</th>
+                      <th>토탈 참여</th>
+                      <th>최근 참여 일</th>
+                      <th>회비 납부 대상</th>
+                      <th>자세히 보기</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                      <th>이름</th>
+                      <th>닉네임</th>
+                      <th>이달의 참여</th>
+                      <th>토탈 참여</th>
+                      <th>최근 참여 일</th>
+                      <th>회비 납부 대상</th>
+                      <th>자세히 보기</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+        </div>
+
+        <p class="small text-center text-muted my-5">
+          <em>More table examples coming soon...</em>
+        </p>
+
+      </div>
+      <!-- /.container-fluid -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--add modal-->
+  <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">myModal
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title">Modal title</h4>
+              </div>
+              <div class="modal-body">
+                  <input type="text" name="moimPlace" id="moimPlace"/>
+                  <div class="form-group">
+                      <div class="form-label-group">
+                          <input type="text" id="testDatepicker" class="form-control" name="participateDate" placeholder="Join Date" required="required">
+                          <label for="testDatepicker">참여 일자</label>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" id="saveAttend" class="btn btn-primary">Save changes</button>
+              </div>
+          </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+<!-- /.content-wrapper -->
+  <!-- index.html 고유 스크립트 추가 -->
+  <th:block layout:fragment="script">
+      <!-- Page level plugin JavaScript-->
+      <script th:src="@{/bootstrap/vendor/datatables/jquery.dataTables.js}"></script>
+      <script th:src="@{/bootstrap/vendor/datatables/dataTables.bootstrap4.js}"></script>
+
+      <script th:src="@{//cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js}"></script>
+      <script th:src="@{//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js}"></script>
+
+      <!-- Custom scripts for all pages-->
+      <script th:src="@{/bootstrap/js/sb-admin.min.js}"></script>
+
+      <!-- Demo scripts for this page-->
+      <script th:src="@{/bootstrap/js/demo/datatables-demo.js}"></script>
+  </th:block>
+</html>
