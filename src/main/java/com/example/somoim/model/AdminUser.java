@@ -4,9 +4,8 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Builder
@@ -15,23 +14,39 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 @Entity
-public class AdminUser {
+@Table(name="ADMIN_USER")
+public class AdminUser implements Serializable {
 
+    private static final long serialVersionUID = 8471401993543971272L;
     @Id @GeneratedValue
+    @Column(name = "ADMIN_USER_SEQ")
     private Long adminUserSeq;
 
+    @Column(name = "ADMIN_ID")
     private String adminId;
 
+    @Column(name = "ADMIN_USER_NAME")
     private String adminUserName;
 
+    @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "ADMIN_ROLE_ID")
+    private String authority;
+
+    @Column(name = "DELETE")
+    private boolean delete;
+
     @CreationTimestamp
+    @Column(name = "MOD_DATE",updatable = true)
     private LocalDateTime modDate;
 
     @UpdateTimestamp
+    @Column(name = "REG_DATE",updatable = false)
     private LocalDateTime regDate;
+
 
 }

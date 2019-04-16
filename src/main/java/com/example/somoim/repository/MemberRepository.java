@@ -1,8 +1,24 @@
 package com.example.somoim.repository;
 
+import com.example.somoim.model.AdminUser;
+import com.example.somoim.model.AdminUserDetails;
 import com.example.somoim.model.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 public interface MemberRepository extends JpaRepository<Member,Long> {
 
+    @Query("update Member e set e.delete=true, e.modifyBy=?2, e.modifiedDate=?3 where e.memberSeq=?1")
+    @Transactional
+    @Modifying
+     void softDelete(Long memberSeq, AdminUser adminUser, LocalDateTime localDateTime);
+
+    @Query("update Member e set e.attendCountMonth=?2, e.attendCount=?3 where e.memberSeq=?1")
+    @Transactional
+    @Modifying
+    void saveMemberAttend(Long memberSeq, Long attendCountMonth, Long attendCount);
 }

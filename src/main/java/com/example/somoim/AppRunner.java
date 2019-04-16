@@ -14,13 +14,13 @@ public class AppRunner implements ApplicationRunner {
     private AdminUserService adminUserService;
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        AdminUserDto adminUserDto = new AdminUserDto();
+/*        AdminUserDto adminUserDto = new AdminUserDto();
         adminUserDto.setAdminEmail("055055@055055.com");
         adminUserDto.setAdminId("055055");
         adminUserDto.setInputPassword("055055");
         adminUserDto.setAdminName("055055");
 
       AdminUser result = adminUserService.createAdminUser(adminUserDto);
-        System.out.println(result);
+        System.out.println(result);*/
     }
 }

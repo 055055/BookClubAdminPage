@@ -1,45 +1,47 @@
 package com.example.somoim.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Member implements Serializable {
+@Table(name = "MEMBER")
+@Where(clause="delete=false")
+@SQLDelete( sql="UPDATE MEMBER SET DELETE = TRUE,MOD_ADMIN=?,MOD_DATE=?  WHERE MEMBER_SEQ = ?", check = ResultCheckStyle.COUNT)
+public class Member extends  CommonAudit implements Serializable {
     private static final long serialVersionUID = -1899422181748243449L;
 
     @Id @GeneratedValue
+    @Column(name = "MEMBER_SEQ",updatable = false)
     private Long memberSeq;
 
+    @Column(name = "MEMBER_NAME")
     private String memberName;
 
+    @Column(name = "MEMBER_NICK_NAME")
     private String memberNickName;
 
-    private LocalDate somoinJoinDate;
+    @Column(name = "SOMOIM_JOIN_DATE",updatable = false)
+    private LocalDate somoimJoinDate;
 
+    @Column(name = "ATTEND_COUNT")
     private Long attendCount;
 
+    @Column(name = "ATTEND_COUNT_MONTH")
     private Long attendCountMonth;
 
-    private LocalDateTime lastAttend;
-
-    @UpdateTimestamp
-    @Column(updatable = true)
-    private LocalDateTime modDate;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime regDate;
+    @Column(name = "LAST_ATTEND")
+    private LocalDate lastAttend;
 
     //insert시 데이터 count 데이터 초기화
     @PrePersist
@@ -47,4 +49,6 @@ public class Member implements Serializable {
         this.attendCount = this.attendCount == null?0L:this.attendCount;
         this.attendCountMonth=this.memberSeq==null?0L:this.attendCountMonth;
     }
+
+
 }
