@@ -15,6 +15,8 @@
     <description>somoin member management project</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
 
@@ -62,12 +64,47 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/deployment/${deployment}</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
         </plugins>
+        <finalName>somoim</finalName>
     </build>
+
+
+    <profiles>
+        <profile>
+            <id>production</id>
+            <properties>
+                <deployment>production</deployment>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>staging</id>
+            <properties>
+                <deployment>staging</deployment>
+            </properties>
+        </profile>
+        <profile>
+            <id>local</id>
+            <properties>
+                <deployment>local</deployment>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
