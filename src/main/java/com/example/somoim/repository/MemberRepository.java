@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member,Long> {
 
@@ -21,4 +22,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     @Transactional
     @Modifying
     void saveMemberAttend(Long memberSeq, Long attendCountMonth, Long attendCount);
+
+    List<Member> findAllByOrderBySomoimJoinDateAsc();
 }

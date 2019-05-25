@@ -1,14 +1,16 @@
 package com.example.somoim.service;
 
-import com.example.somoim.dto.MemberAttend;
-import com.example.somoim.dto.MemberAttendList;
-import com.example.somoim.dto.MemberListResDto;
+import com.example.somoim.dto.*;
 import com.example.somoim.model.AdminUserDetails;
+import com.example.somoim.model.MemberAttendHistory;
+import com.example.somoim.repository.MemberAttendHisRepository;
 import com.example.somoim.repository.MemberRepository;
-import com.example.somoim.dto.MemberDto;
 import com.example.somoim.model.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,8 +26,23 @@ public class MemberService {
     @Autowired
     MemberRepository memberRepository;
 
+    MemberAttendHisRepository memberAttendHisRepository;
+    public MemberService(MemberAttendHisRepository memberAttendHisRepository) {
+        this.memberAttendHisRepository = memberAttendHisRepository;
+    }
+
+    @Scheduled(cron="0 0 0 1 * *")
+    public void resetMonthlyAttendCount(){
+      List<Member> found =  memberRepository.findAll();
+      found.stream().forEach(t->t.setAttendCountMonth(0l));
+    }
+
+
+
+
     public List<MemberListResDto> getMemberList() {
-        List<Member> result =  memberRepository.findAll();
+        List<Member> result =  memberRepository.findAllByOrderBySomoimJoinDateAsc();
+
         List<MemberListResDto> resultList = new ArrayList<>();
         for (Member list: result) {
             MemberListResDto MemberListBuilder = MemberListResDto.builder()
@@ -34,6 +51,8 @@ public class MemberService {
                                                 .memberNickName(list.getMemberNickName())
                                                 .attendCount(list.getAttendCount())
                                                 .attendCountMonth(list.getAttendCountMonth())
+                                                .lastAttend(list.getLastAttend())
+                                                .somoimJoinDate(list.getSomoimJoinDate())
                                                 .regDate(list.getCreatedDate())
                                               .build();
             resultList.add(MemberListBuilder);
@@ -75,6 +94,13 @@ public class MemberService {
             Long attendCount =  m.get().getAttendCount()==0?1L:m.get().getAttendCount()+1L;
             m.get().setAttendCount(attendCount);
             memberRepository.save(m.get());
+            MemberAttendHistory memberAttendHis = MemberAttendHistory.builder()
+                                                .memberSeq(m.get().getMemberSeq())
+                                                .memberName(m.get().getMemberName())
+                                                .memberAttendDay(m.get().getLastAttend())
+                                                .memberAttendPlae(memberAttendList.getMemberAttendPlace())
+                                                .build();
+            memberAttendHisRepository.save(memberAttendHis);
         }
     }
 
@@ -82,4 +108,32 @@ public class MemberService {
 
 
     }
+
+    public MemberAttendHistoryCriteriaRes getMemberAttendHistoryList(Pageable pageable, String draw) {
+        Page<MemberAttendHistory>  result =  memberAttendHisRepository.findAll(pageable);
+        List<MemberAttendHistoryDto> attendHistroyList = new ArrayList<>();
+        for (MemberAttendHistory memberAttendHistory: result) {
+            MemberAttendHistoryDto memberAttendHistoryDto = MemberAttendHistoryDto.builder()
+                                                            .memberAttendHisSeq(memberAttendHistory.getMemberAttendHisSeq())
+                                                            .memberSeq(memberAttendHistory.getMemberSeq())
+                                                            .memberName(memberAttendHistory.getMemberName())
+                                                            .memberAttendDay(memberAttendHistory.getMemberAttendDay())
+                                                            .memberAttendPlace(memberAttendHistory.getMemberAttendPlace())
+                                                            .build();
+            attendHistroyList.add(memberAttendHistoryDto);
+        }
+
+        log.info("xxx memberAttendHistoryList  reuslt xxx "+result.toString());
+        MemberAttendHistoryCriteriaRes  memberAttendHistoryCriteriaRes = MemberAttendHistoryCriteriaRes.builder()
+                                                                        .draw(draw)
+                                                                        .recordsTotal(result.getTotalElements())
+                                                                        .recordsFiltered(result.getTotalElements())
+                                                                        .data(attendHistroyList)
+                                                                        .build();
+
+        return memberAttendHistoryCriteriaRes;
+    }
+
+
+
 }

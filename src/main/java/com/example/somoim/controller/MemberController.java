@@ -1,12 +1,13 @@
 package com.example.somoim.controller;
 
-import com.example.somoim.dto.MemberAttendList;
-import com.example.somoim.dto.MemberDto;
-import com.example.somoim.dto.MemberListResDto;
+import com.example.somoim.dto.*;
 import com.example.somoim.model.AdminUserDetails;
 import com.example.somoim.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,8 @@ public class MemberController {
     }
 
     @PostMapping("/attend")
-    public void attendMembers(@RequestBody MemberAttendList memberAttendList) throws Exception {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public  @ResponseBody void attendMembers(@RequestBody MemberAttendList memberAttendList) throws Exception {
         log.debug(memberAttendList.toString());
         memberService.saveMemberAttend(memberAttendList);
     }
@@ -84,8 +86,32 @@ public class MemberController {
         log.debug("memberDtail : "+memberSeq);
     }
 
-    @GetMapping("/test")
+    @GetMapping("/attend")
     public String test(){
-        return "layoutTest";
+        return "attend";
     }
+
+    @GetMapping("/memberAttendHistoryList")
+    public @ResponseBody
+    MemberAttendHistoryCriteriaRes memberAttendHistoryList(MemberAttendHistoryCriteriaReq memberAttendHistoryCriteria){
+
+        log.info(memberAttendHistoryCriteria.toString());
+        //첫 조회시 start가 0이나, next page시 start+length 값으로 됨.
+        //https://datatables.net/forums/discussion/56424/serverside-paging-problem-start-value-legnth-value#latest
+        int currentPage = 0;
+        if(memberAttendHistoryCriteria.getStart() !=0){
+            currentPage = memberAttendHistoryCriteria.getStart() / memberAttendHistoryCriteria.getLength();
+        }
+
+        String draw = memberAttendHistoryCriteria.getDraw();
+
+        Pageable pageable = PageRequest.of(currentPage,memberAttendHistoryCriteria.getLength(), Sort.Direction.DESC,"memberAttendDay");
+
+        MemberAttendHistoryCriteriaRes result =  memberService.getMemberAttendHistoryList(pageable, draw);
+
+        log.info("xxx memberAttendHistoryList  data xxx "+result.toString());
+        return result;
+    }
+
+
 }
