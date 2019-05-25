@@ -50,7 +50,7 @@ public class AdminUserService implements UserDetailsService {
         Optional<AdminUserAuthority> role = adminUserAuthorityRepository.findByAuthorityId(AdminUser.getAuthority());
 
         //일치하는 username이 없으면 exception 처리
-        log.info(AdminUser.getAdminId());
+        log.debug(AdminUser.getAdminId());
         log.info(role.get().getAuthorityId());
         AdminUserDetails adminUserDetails = new AdminUserDetails(AdminUser,role.get().getAuthorityId());
         return adminUserDetails;

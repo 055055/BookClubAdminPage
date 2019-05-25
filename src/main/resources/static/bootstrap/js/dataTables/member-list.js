@@ -12,9 +12,10 @@ $(document).ready(function() {
                   "defaultContent": "-",
                   "targets": "_all"
               }],
+              "order": [[ 2, "asc" ]],
               "paging": true,
               "ordering": true,
-              "searching": false,
+              "searching": true,
               ajax : {
                       method:"get",
                       url: "/memberList",
@@ -30,10 +31,10 @@ $(document).ready(function() {
 */
                   {data: 'memberName'},
                   {data: 'memberNickName'},
+                  {data: 'somoimJoinDate'},
                   {data: 'attendCount'},
                   {data: 'attendCountMonth'},
                   {data: 'lastAttend'},
-                  {data: 'regDate'},
                   {data: "memberSeq", "render": function (data, type, row, meta) { return '<a href="' + data + '">자세히 보기</a>';} }
               ],
               dom: 'Bfrtip',
@@ -125,14 +126,18 @@ $(document).ready(function() {
             }
             , error : function(jqXHR, textStatus, errorThrown) { // jqXHR : xml http request object, textStatus : Jquery status code, errorThrown : exception object
 
+/*
                 callback(jqXHR.responseJSON, jqXHR);
+*/
 
                 alert(jqXHR.status);
                 location.reload();
             }
             , success : function(data, textStatus, jqXHR){ // data : server response data, textStatus : Jquery status code, jqXHR : xml http request object
 
+/*
                 callback(data, jqXHR);
+*/
 
                 alert(jqXHR.status);
                 location.reload();

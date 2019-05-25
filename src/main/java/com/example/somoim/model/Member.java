@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "MEMBER")
 @Where(clause="delete=false")
-@SQLDelete( sql="UPDATE MEMBER SET DELETE = TRUE,MOD_ADMIN=?,MOD_DATE=?  WHERE MEMBER_SEQ = ?", check = ResultCheckStyle.COUNT)
 public class Member extends  CommonAudit implements Serializable {
     private static final long serialVersionUID = -1899422181748243449L;
 

@@ -26,7 +26,7 @@ public class AdminController {
     @PostMapping("/admin")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void registerAdmin(AdminUserDto adminUserDto){
-        log.error("### : "+adminUserDto.toString());
+        log.debug("### : "+adminUserDto.toString());
         adminUserService.createAdminUser(adminUserDto);
     }
 }
