@@ -1,4 +1,4 @@
-package com.example.somoim.model;
+package com.example.somoim.model.admin;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,13 +40,12 @@ public class AdminUser implements Serializable {
     @Column(name = "DELETE")
     private boolean delete;
 
-    @CreationTimestamp
+    @UpdateTimestamp
     @Column(name = "MOD_DATE",updatable = true)
     private LocalDateTime modDate;
 
-    @UpdateTimestamp
+    @CreationTimestamp
     @Column(name = "REG_DATE",updatable = false)
     private LocalDateTime regDate;
-
 
 }

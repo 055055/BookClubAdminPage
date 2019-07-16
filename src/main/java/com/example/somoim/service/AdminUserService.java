@@ -1,24 +1,19 @@
 package com.example.somoim.service;
 
 import com.example.somoim.dto.AdminUserDto;
-import com.example.somoim.model.AdminUserAuthority;
-import com.example.somoim.model.AdminUserDetails;
+import com.example.somoim.model.admin.AdminUserAuthority;
+import com.example.somoim.model.admin.AdminUserDetails;
 import com.example.somoim.repository.AdminUserAuthorityRepository;
 import com.example.somoim.repository.AdminUserRepository;
-import com.example.somoim.model.AdminUser;
+import com.example.somoim.model.admin.AdminUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Optional;
 
 @Slf4j

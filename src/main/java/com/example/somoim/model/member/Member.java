@@ -1,5 +1,6 @@
-package com.example.somoim.model;
+package com.example.somoim.model.member;
 
+import com.example.somoim.model.CommonAudit;
 import lombok.*;
 import org.hibernate.annotations.*;
 
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "MEMBER")
 @Where(clause="delete=false")
-public class Member extends  CommonAudit implements Serializable {
+public class Member extends CommonAudit implements Serializable {
     private static final long serialVersionUID = -1899422181748243449L;
 
     @Id @GeneratedValue
@@ -37,7 +38,7 @@ public class Member extends  CommonAudit implements Serializable {
     private Long attendCount;
 
     @Column(name = "ATTEND_COUNT_MONTH")
-    private Long attendCountMonth;
+    private int attendCountMonth;
 
     @Column(name = "LAST_ATTEND")
     private LocalDate lastAttend;
@@ -46,7 +47,7 @@ public class Member extends  CommonAudit implements Serializable {
     @PrePersist
     public void prePersist(){
         this.attendCount = this.attendCount == null?0L:this.attendCount;
-        this.attendCountMonth=this.memberSeq==null?0L:this.attendCountMonth;
+        this.attendCountMonth=this.memberSeq==null?0:this.attendCountMonth;
     }
 
 

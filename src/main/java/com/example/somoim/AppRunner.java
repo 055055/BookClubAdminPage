@@ -1,7 +1,5 @@
 package com.example.somoim;
 
-import com.example.somoim.dto.AdminUserDto;
-import com.example.somoim.model.AdminUser;
 import com.example.somoim.service.AdminUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;

@@ -1,6 +1,6 @@
 package com.example.somoim.config;
 
-import com.example.somoim.model.AdminUser;
+import com.example.somoim.model.admin.AdminUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

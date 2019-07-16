@@ -1,8 +1,7 @@
 package com.example.somoim.repository;
 
-import com.example.somoim.model.AdminUser;
-import com.example.somoim.model.AdminUserDetails;
-import com.example.somoim.model.Member;
+import com.example.somoim.model.admin.AdminUser;
+import com.example.somoim.model.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +23,6 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
     void saveMemberAttend(Long memberSeq, Long attendCountMonth, Long attendCount);
 
     List<Member> findAllByOrderBySomoimJoinDateAsc();
+
+    List<Member> findTop4ByOrderByAttendCountMonthDesc();
 }

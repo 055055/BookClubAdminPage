@@ -28,7 +28,7 @@ public class MemberListResDto {
     private Long attendCount;
 
     @JsonProperty(value = "attendCountMonth")
-    private Long attendCountMonth;
+    private int attendCountMonth;
 
     @JsonProperty(value = "lastAttend")
     @JsonInclude(JsonInclude.Include.NON_NULL)

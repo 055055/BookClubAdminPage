@@ -1,4 +1,4 @@
-package com.example.somoim.model;
+package com.example.somoim.model.admin;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

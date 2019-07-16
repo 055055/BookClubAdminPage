@@ -1,5 +1,6 @@
 package com.example.somoim.model;
 
+import com.example.somoim.model.admin.AdminUser;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;

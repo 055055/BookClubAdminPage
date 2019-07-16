@@ -1,5 +1,6 @@
-package com.example.somoim.model;
+package com.example.somoim.model.member;
 
+import com.example.somoim.model.CommonAudit;
 import lombok.*;
 import org.hibernate.annotations.Where;
 

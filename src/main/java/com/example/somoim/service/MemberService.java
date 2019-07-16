@@ -1,11 +1,11 @@
 package com.example.somoim.service;
 
 import com.example.somoim.dto.*;
-import com.example.somoim.model.AdminUserDetails;
-import com.example.somoim.model.MemberAttendHistory;
+import com.example.somoim.model.admin.AdminUserDetails;
+import com.example.somoim.model.member.MemberAttendHistory;
 import com.example.somoim.repository.MemberAttendHisRepository;
 import com.example.somoim.repository.MemberRepository;
-import com.example.somoim.model.Member;
+import com.example.somoim.model.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ public class MemberService {
     @Scheduled(cron="0 0 0 1 * *")
     public void resetMonthlyAttendCount(){
       List<Member> found =  memberRepository.findAll();
-      found.stream().forEach(t->t.setAttendCountMonth(0l));
+      found.stream().forEach(t->t.setAttendCountMonth(0));
     }
 
 
@@ -89,7 +89,7 @@ public class MemberService {
                     throw new Exception();
                 }
             m.get().setLastAttend(memberAttendList.getMemberAttendDate());
-            Long attendCountMonth =  m.get().getAttendCountMonth()==0?1L:m.get().getAttendCountMonth()+1L;
+            int attendCountMonth =  m.get().getAttendCountMonth()==0?1:m.get().getAttendCountMonth()+1;
             m.get().setAttendCountMonth(attendCountMonth);
             Long attendCount =  m.get().getAttendCount()==0?1L:m.get().getAttendCount()+1L;
             m.get().setAttendCount(attendCount);

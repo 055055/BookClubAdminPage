@@ -1,6 +1,5 @@
 package com.example.somoim.dto;
 
-import com.example.somoim.model.MemberAttendHistory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,0 +1,61 @@
+create table admin_role
+(
+  admin_authority_seq bigint not null
+    constraint admin_role_pkey
+      primary key,
+  authority_id        varchar(10),
+  authority_name      varchar(10),
+  authority_level     varchar(10),
+  reg_date            timestamp
+);
+
+create table admin_user
+(
+  admin_user_seq  bigint not null
+    constraint admin_user_pkey
+      primary key,
+  admin_id        varchar(255),
+  admin_user_name varchar(255),
+  password        varchar(255),
+  email           varchar(255),
+  mod_date        timestamp,
+  reg_date        timestamp,
+  admin_role_id   varchar(10),
+  delete          boolean
+);
+
+create table member
+(
+  member_seq         bigint not null
+    constraint member_pkey
+      primary key,
+  member_name        varchar(255),
+  member_nick_name   varchar(255),
+  somoim_join_date   date,
+  attend_count_month bigint,
+  attend_count       bigint,
+  last_attend        timestamp,
+  mod_date           timestamp,
+  reg_date           timestamp,
+  mod_admin          varchar(10),
+  reg_admin          varchar(10),
+  delete             boolean default false
+);
+
+create table member_attend_history
+(
+  member_attend_his_seq bigint not null
+    constraint member_attend_history_pkey
+      primary key,
+  member_seq            bigint not null,
+  member_name           varchar(255),
+  member_attend_day     date,
+  member_attend_place   varchar(255),
+  mod_date              timestamp,
+  reg_date              timestamp,
+  mod_admin             varchar(10),
+  reg_admin             varchar(10),
+  delete                boolean default false
+);
+
+

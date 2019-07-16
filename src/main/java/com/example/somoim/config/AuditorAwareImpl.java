@@ -1,8 +1,8 @@
 package com.example.somoim.config;
 
 
-import com.example.somoim.model.AdminUser;
-import com.example.somoim.model.AdminUserDetails;
+import com.example.somoim.model.admin.AdminUser;
+import com.example.somoim.model.admin.AdminUserDetails;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

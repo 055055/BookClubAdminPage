@@ -1,6 +1,6 @@
 package com.example.somoim.repository;
 
-import com.example.somoim.model.AdminUser;
+import com.example.somoim.model.admin.AdminUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

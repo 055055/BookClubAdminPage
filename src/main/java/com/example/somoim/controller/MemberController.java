@@ -1,7 +1,7 @@
 package com.example.somoim.controller;
 
 import com.example.somoim.dto.*;
-import com.example.somoim.model.AdminUserDetails;
+import com.example.somoim.model.admin.AdminUserDetails;
 import com.example.somoim.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
