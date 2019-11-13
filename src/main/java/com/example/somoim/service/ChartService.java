@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -22,7 +23,9 @@ public class ChartService {
     private MemberAttendHisRepository memberAttendHisRepository;
 
     public List<ChartMonthlyAttendRankDto> getMonthlyAttendRank() {
-    List<Member> members=  memberRepository.findTop4ByOrderByAttendCountMonthDesc();
+   // List<Member> members=  memberRepository.findTop4ByOrderByAttendCountMonthDesc();
+        int a = 0;
+        List<Member> members=  memberRepository.findTop4ByAttendCountMonthGreaterThanOrderByAttendCountMonthDesc(a);
     List<ChartMonthlyAttendRankDto> list = new ArrayList<>();
     for (Member member: members) {
         ChartMonthlyAttendRankDto result = ChartMonthlyAttendRankDto.builder()
@@ -37,9 +40,7 @@ public class ChartService {
 
     public List<Map<String,Integer>> getMonthlyAttendRate(){
     List<Map<String,Integer>>  found =  memberAttendHisRepository.findMonthlyRate();
-    found.stream().forEach(t->t.entrySet().forEach(a->log.info("found : "+a.getValue())
 
-    ));
         return found;
     }
 }

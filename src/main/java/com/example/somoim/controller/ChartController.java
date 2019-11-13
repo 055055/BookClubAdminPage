@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,12 @@ public class ChartController {
     private ChartService chartService;
 
     @GetMapping("/chart")
-    public String getChart(ModelMap model){
+    public String getChart(@RequestParam String pageName, ModelMap model){
         //MonthlyAttendRank select
         List<ChartMonthlyAttendRankDto> attendRank =  chartService.getMonthlyAttendRank();
         List<Map<String,Integer>>      attendRate =  chartService.getMonthlyAttendRate();
 
+        model.addAttribute("pageName",pageName);
         model.addAttribute("attendRank",attendRank);
         model.addAttribute("attendRate",attendRate);
 

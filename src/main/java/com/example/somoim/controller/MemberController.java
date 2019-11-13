@@ -1,6 +1,8 @@
 package com.example.somoim.controller;
 
 import com.example.somoim.dto.*;
+import com.example.somoim.error.ServiceError;
+import com.example.somoim.error.ServiceException;
 import com.example.somoim.model.admin.AdminUserDetails;
 import com.example.somoim.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +34,14 @@ public class MemberController {
 
       /*  List<Member> result=  memberService.getMemberList();
         modelMap.addAttribute("memberList",result);*/
+
         return "index";
     }
 
     @GetMapping("/member")
-    public String member(){
+    public String member(@RequestParam String pageName, ModelMap model){
+        model.addAttribute("pageName",pageName);
+
         return "register";
     }
 
@@ -71,13 +78,20 @@ public class MemberController {
 
     @PostMapping("/attend")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public  @ResponseBody void attendMembers(@RequestBody MemberAttendList memberAttendList) throws Exception {
+    public  @ResponseBody void attendMembers(@RequestBody @Valid  MemberAttendList memberAttendList, Errors errors) throws Exception {
         log.debug(memberAttendList.toString());
+        if(errors.hasErrors()){
+            log.debug("Excepttion");
+            throw new ServiceException(ServiceError.INTERNAL_DB_ERROR);
+        }
+
         memberService.saveMemberAttend(memberAttendList);
     }
 
     @GetMapping("/tables")
-    public String tables(){
+    public String tables(@RequestParam String pageName, ModelMap model){
+        model.addAttribute("pageName",pageName);
+
         return "tables";
     }
 
@@ -87,7 +101,9 @@ public class MemberController {
     }
 
     @GetMapping("/attend")
-    public String test(){
+    public String test(@RequestParam String pageName, ModelMap model){
+        model.addAttribute("pageName",pageName);
+
         return "attend";
     }
 
@@ -111,6 +127,17 @@ public class MemberController {
 
         log.info("xxx memberAttendHistoryList  data xxx "+result.toString());
         return result;
+    }
+
+    @PostMapping("/memberAttendHistoryList")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public @ResponseBody void memberAttendHistoryListDelete(@RequestBody  List<Map<String,Long>> deleteList,
+                                         @AuthenticationPrincipal AdminUserDetails adminUserDetails
+    ){
+        log.info("xxx delete memberAttendHistoryList xxx "+deleteList.toString());
+        memberService.deleteMemberAttendHistory(deleteList, adminUserDetails);
+
+
     }
 
 

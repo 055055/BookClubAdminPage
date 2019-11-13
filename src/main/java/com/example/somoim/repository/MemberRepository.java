@@ -24,5 +24,8 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     List<Member> findAllByOrderBySomoimJoinDateAsc();
 
-    List<Member> findTop4ByOrderByAttendCountMonthDesc();
+   //안씀List<Member> findTop4ByOrderByAttendCountMonthDesc();
+
+    List<Member> findTop4ByAttendCountMonthGreaterThanOrderByAttendCountMonthDesc(int attendCountMonth);
+
 }

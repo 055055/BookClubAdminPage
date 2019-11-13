@@ -1,35 +1,67 @@
 package com.example.somoim.config;
 
+import com.example.somoim.controller.Provider;
+import com.example.somoim.service.AdminUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
+
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.header.writers.frameoptions.WhiteListedAllowFromStrategy;
-import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 
-import java.util.Arrays;
+
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private AdminUserService adminUserService;
+    @Autowired
+    private Provider provider;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/","/h2-console/**").permitAll()
                 .antMatchers("/tables").access("hasAnyRole('ROLE_ADMIN')")
+                .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().ignoringAntMatchers("/h2-console/**")
                 .and().headers().frameOptions().sameOrigin()
                 .and()
                 .formLogin()
+                    .loginPage("/login")//post로 요청해야함
+                    .loginProcessingUrl("/loginProcessing")
+                    .defaultSuccessUrl("/index?pageName=mainPage",true)
+                    .failureUrl("/fail")
+                    .usernameParameter("userId")
+                    .passwordParameter("userPwd")
+                    .permitAll()
+                .and()
+                    .logout()//post로 요청해야홤
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .deleteCookies("JSESSIONID")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
                 //http  accept header에 html이 있어서 1차적으로 여기서 걸림
                 .and()
-                .httpBasic();
+                .authenticationProvider(provider).userDetailsService(adminUserService)
+                .httpBasic()
+        ;
+
+//        .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/loginProcess")
+//                .defaultSuccessUrl("/loginSuccess")
+//                .permitAll()
+//                .and()
+//                .logout()
+
         //accept header에 html이 없다면 여기서 걸림.
       /*  http.logout()
                 .logoutUrl("/member")								// 로그아웃 처리 URL(spring security default : /logout)
@@ -61,4 +93,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }

@@ -95,7 +95,7 @@ public class MemberService {
             m.get().setAttendCount(attendCount);
             memberRepository.save(m.get());
             MemberAttendHistory memberAttendHis = MemberAttendHistory.builder()
-                                                .memberSeq(m.get().getMemberSeq())
+                                                .member(m.get())
                                                 .memberName(m.get().getMemberName())
                                                 .memberAttendDay(m.get().getLastAttend())
                                                 .memberAttendPlae(memberAttendList.getMemberAttendPlace())
@@ -115,7 +115,7 @@ public class MemberService {
         for (MemberAttendHistory memberAttendHistory: result) {
             MemberAttendHistoryDto memberAttendHistoryDto = MemberAttendHistoryDto.builder()
                                                             .memberAttendHisSeq(memberAttendHistory.getMemberAttendHisSeq())
-                                                            .memberSeq(memberAttendHistory.getMemberSeq())
+                                                            .memberSeq(memberAttendHistory.getMember().getMemberSeq())
                                                             .memberName(memberAttendHistory.getMemberName())
                                                             .memberAttendDay(memberAttendHistory.getMemberAttendDay())
                                                             .memberAttendPlace(memberAttendHistory.getMemberAttendPlace())
@@ -135,5 +135,32 @@ public class MemberService {
     }
 
 
+    public void deleteMemberAttendHistory(List<Map<String, Long>> deleteList, AdminUserDetails adminUserDetails) {
 
+        //잠깐 타임. 여기 수정해야 겠다.   member and memgber_attend_history랑
+        for(Map<String, Long> result: deleteList) {
+            for(Map.Entry<String,Long> entry : result.entrySet()){
+                Long memberAttendHistorySeq = entry.getValue();
+
+               Optional<MemberAttendHistory> found =  memberAttendHisRepository.findById(memberAttendHistorySeq);
+               if(!found.isPresent()){
+//                 todo: exception 처리 해야함.  throw new
+               }
+
+                memberAttendHisRepository.softDelete(memberAttendHistorySeq,adminUserDetails.getAdminUser(), LocalDateTime.now());
+                Optional<List<MemberAttendHistory>> memberAttendHistory =  memberAttendHisRepository.findByMemberOrderByMemberAttendHisSeqDesc(found.get().getMember());
+                found.get().getMember().setLastAttend(memberAttendHistory.isPresent()==false?null:memberAttendHistory.get().get(0).getMemberAttendDay());
+                int attendCountMonth =  found.get().getMember().getAttendCountMonth()-1;
+                found.get().getMember().setAttendCountMonth(attendCountMonth);
+                Long attendCount =  found.get().getMember().getAttendCount()-1L;
+                found.get().getMember().setAttendCount(attendCount);
+
+                memberAttendHisRepository.save(found.get());
+
+            }
+
+
+        }
+
+    }
 }

@@ -13,17 +13,28 @@ import java.time.LocalDate;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
+@Setter
+@SequenceGenerator(
+        name="MEMBER_ATTEND_HIS_GEN", //시퀀스 제너레이터 이름
+        sequenceName="MEMBER_ATTEND_HIS_SEQUENCE", //시퀀스 이름
+        initialValue=1, //시작값
+        allocationSize=1 //메모리를 통해 할당할 범위 사이즈
+)
 @Table(name = "MEMBER_ATTEND_HISTORY")
 @Where(clause="delete=false")
 public class MemberAttendHistory extends CommonAudit implements Serializable {
     private static final long serialVersionUID = -7280512720483564483L;
 
-    @Id @GeneratedValue
+    @Id  @GeneratedValue(
+            strategy=GenerationType.SEQUENCE, //사용할 전략을 시퀀스로  선택
+            generator="MEMBER_ATTEND_HIS_GEN" //식별자 생성기를 설정해놓은  USER_SEQ_GEN으로 설정
+    )
     @Column(name = "MEMBER_ATTEND_HIS_SEQ",updatable = false)
     private Long memberAttendHisSeq;
 
-    @Column(name = "MEMBER_SEQ")
-    private Long memberSeq;
+    @ManyToOne(targetEntity = Member.class)
+    @JoinColumn(name = "MEMBER_SEQ", referencedColumnName = "MEMBER_SEQ", nullable = false)
+    private Member member;
 
     @Column(name = "MEMBER_NAME")
     private String memberName;
@@ -35,8 +46,8 @@ public class MemberAttendHistory extends CommonAudit implements Serializable {
     private String memberAttendPlace;
 
     @Builder
-    public MemberAttendHistory(Long memberSeq, String memberName, LocalDate memberAttendDay, String memberAttendPlae) {
-        this.memberSeq = memberSeq;
+    public MemberAttendHistory(Member member, String memberName, LocalDate memberAttendDay, String memberAttendPlae) {
+        this.member = member;
         this.memberName = memberName;
         this.memberAttendDay = memberAttendDay;
         this.memberAttendPlace = memberAttendPlae;

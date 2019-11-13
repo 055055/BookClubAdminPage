@@ -15,6 +15,20 @@
   -->
     <script th:src="@{//code.jquery.com/ui/1.12.1/jquery-ui.min.js}"></script>
 
+    <!--공통 js-->
+    <script th:src="@{/bootstrap/js/common.js}"></script>
+
+<!--    사이드바 부트스트랩 active 표시해주는 js. java 변수 받으려면 타임리프 인라인해야 해서 따로 설정-->
+    <script th:inline="javascript">
+        $(document).ready(function(){
+            $('.sidebar li').removeClass('active');
+            var pageName = /*[[${pageName}]]*/;
+            $('#'+pageName).closest('li').addClass('active');
+
+        });
+
+    </script>
+
     <!-- 컨텐츠페이지의 스크립트 영역이 들어감 -->
     <th:block layout:fragment="script"></th:block>
 </div>

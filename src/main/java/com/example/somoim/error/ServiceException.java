@@ -26,4 +26,8 @@ public class ServiceException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
         this.serviceError = serviceError;
     }
+
+    public ServiceError getServiceError() {
+        return serviceError;
+    }
 }

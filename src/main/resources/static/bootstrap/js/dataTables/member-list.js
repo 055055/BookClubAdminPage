@@ -43,9 +43,13 @@ $(document).ready(function() {
               },
               buttons: [
                   {
-                      text: 'seleceted data delete',
+                      text: '회원 삭제',
                       action: function () {
-                          alert( table.rows('.selected').data().length +' row(s) selected' );
+                          var selectedData = table.rows('.selected').any();
+                          if(selectedData == false) {
+                              alert("회원을 선택 해주세요.");
+                              return false;
+                          }
                           var temp = table.rows('.selected').data();
                           var personArray = new Array();
                          for(var i=0; i < temp.length; i++){
@@ -53,10 +57,7 @@ $(document).ready(function() {
                              deleteObject.memberSeq = temp[i].memberSeq;
                              personArray.push(deleteObject); //list add와 같다.
                          }
-                         alert(JSON.stringify(personArray));
-                       /*   var deleteObject = new Object();
-                          deleteObject.memberSeq = temp[0].memberSeq;
-                          alert(JSON.stringify(deleteObject));*/
+
                           $.ajax({
                               type : "POST"
                               , url : '/memberList'
@@ -91,6 +92,13 @@ $(document).ready(function() {
                   {
                       text: '출석',
                       action: function () {
+                          var selectedData = table.rows('.selected').any();
+                          if(selectedData == false){
+                           alert("회원을 선택 해주세요.");
+                           $('#alert').show();
+                           return false;
+                          }
+
                           $("#myModal").modal();
                       }
                   }
@@ -98,7 +106,7 @@ $(document).ready(function() {
       });
 
     $("#saveAttend").on("click",function () {
-        alert( table.rows('.selected').data().length +' row(s) selected' );
+
         var temp = table.rows('.selected').data();
         var personArray = new Array();
         for(var i=0; i < temp.length; i++){
@@ -112,7 +120,6 @@ $(document).ready(function() {
         attendObject.memberAttendDate = $('#testDatepicker').val();
         attendObject.memberAttend = personArray;
         attendObject.memberAttendPlace = $('#moimPlace').val();
-        alert(JSON.stringify(attendObject));
         $.ajax({
             type : "POST"
             , url : '/attend'
@@ -129,6 +136,7 @@ $(document).ready(function() {
 /*
                 callback(jqXHR.responseJSON, jqXHR);
 */
+                console.log("oxox");
 
                 alert(jqXHR.status);
                 location.reload();
@@ -137,7 +145,7 @@ $(document).ready(function() {
 
 /*
                 callback(data, jqXHR);
-*/
+*/                console.log("xoxo");
 
                 alert(jqXHR.status);
                 location.reload();
