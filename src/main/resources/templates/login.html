@@ -25,7 +25,7 @@
     <div class="card card-login mx-auto mt-5">
       <div class="card-header">Login</div>
       <div class="card-body">
-        <form th:action="@{/loginProcessing}" id="loginProcessing" method="post">
+        <form th:action="@{/login}" id="loginProcessing" method="post">
           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
           <div class="form-group">
             <div class="form-label-group">
@@ -42,12 +42,12 @@
           <div class="form-group">
             <div class="checkbox">
               <label>
-                <input type="checkbox" value="remember-me">
+                <input type="checkbox" name="remember-me">
                 Remember Password
               </label>
             </div>
           </div>
-          <a class="btn btn-primary btn-block" id="loginButtion">Login</a>
+          <input type="submit" class="btn btn-primary btn-block" value="Login">
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="register.html">Register an Account</a>
@@ -63,16 +63,6 @@
 
   <!-- Core plugin JavaScript-->
   <script th:src="@{/bootstrap/vendor/jquery-easing/jquery.easing.min.js}"></script>
-  <script type="text/javascript">
-    $('#loginButtion').on('click',function () {
-      alert("dd");
-        $('#loginProcessing').submit();
-
-    })
-
-  </script>
-
-
 
 </body>
 

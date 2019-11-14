@@ -2,16 +2,15 @@ package com.example.somoim;
 
 import com.example.somoim.dto.AdminUserDto;
 import com.example.somoim.model.admin.AdminUser;
-import com.example.somoim.service.AdminUserService;
+import com.example.somoim.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class AppRunner implements ApplicationRunner {
     @Autowired
-    private AdminUserService adminUserService;
+    private AccountService accountService;
     @Override
     public void run(ApplicationArguments args) throws Exception {
         AdminUserDto adminUserDto = new AdminUserDto();
@@ -20,7 +19,7 @@ public class AppRunner implements ApplicationRunner {
         adminUserDto.setInputPassword("055055");
         adminUserDto.setAdminName("055055");
 
-      AdminUser result = adminUserService.createAdminUser(adminUserDto);
+      AdminUser result = accountService.createAdminUser(adminUserDto);
         System.out.println(result);
     }
 }
