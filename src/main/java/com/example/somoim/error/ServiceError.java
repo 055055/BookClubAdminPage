@@ -8,7 +8,9 @@ public enum ServiceError {
     INTERNAL_DB_ERROR("40000","Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR),
     INTERNAL_SERVCER_ERROR("50000","Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR),
     ID_MIS_MATCH("40009","ID MIS MATCH", HttpStatus.CONFLICT),
-    PWD_MIS_MATCH("40009","PWD MIS MATCH", HttpStatus.CONFLICT);
+    PWD_MIS_MATCH("40009","PWD MIS MATCH", HttpStatus.CONFLICT),
+    SEND_MAIL_ERROR("50001","Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+
 
     public String resultCode;
     public String resultMessage;
